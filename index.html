@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encode/Decode </title>
+
+
+    <!-- Load PyScript -->
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+</head>
+<body>
+
+    <h1> Encode & Decode </h1>
+    
+
+    <label for="message">Enter a message:</label>
+    <input type="text" id="message" name="message" />
+
+    <label for="choice">Choose Option:</label>
+    <select id="choice">
+        <option value="encode">Encode</option>
+        <option value="decode">Decode</option>
+    </select>
+
+    <button id="submit_button">Submit</button>
+
+    <h2>Result:</h2>
+    <div id="result"></div>
+
+    <!-- Python Script for Encoding/Decoding -->
+    <py-script>
+        encode_dict = {
+            'A': 'O', 'B': '9', 'C': '8', 'D': '7', 'E': '6', 'F': '5', 'G': 'Y', 'H': '3', 'I': '2', 'J': 'm', 'K': 'b', 'L': 'B',
+            'M': 'V', 'N': 'c', 'O': 'x', 'P': 'Z', 'Q': 'k', 'R': 'K', 'S': 'J', 'T': 't', 'U': 'F', 'V': 'D', 'W': 'S', 'X': 'A',
+            'Y': 'H', 'Z': 'R'
+        }
+
+        decode_dict = {v: k for k, v in encode_dict.items()}
+
+        def encode_message(message):
+            encoded_message = ''
+            for char in message.upper():
+                if char in encode_dict:
+                    encoded_message += encode_dict[char]
+                else:
+                    encoded_message += char
+            return encoded_message
+
+        def decode_message(message):
+            decoded_message = ''
+            for char in message:
+                if char in decode_dict:
+                    decoded_message += decode_dict[char]
+                else:
+                    decoded_message += char
+            return decoded_message
+
+        def process_message(event):
+            # Get the input message and the selected option (encode/decode)
+            message = Element("message").value
+            choice = Element("choice").value
+
+            if choice == 'encode':
+                result = encode_message(message)
+            else:
+                result = decode_message(message)
+
+            # Display the result in the result div
+            Element("result").write(result)
+
+        # Bind the process_message function to the submit button
+        submit_button = Element("submit_button")
+        submit_button.element.onclick = process_message
+    </py-script>
+    <h3> Project 0ne  - github - prdip01<h>
+
+</body>
+
+</html>
